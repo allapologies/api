@@ -1,6 +1,6 @@
 'use strict'
-
 const { createServer } = require('http')
+const enableDestroy = require('server-destroy')
 
 const server = createServer(function (req, res) {
 
@@ -9,9 +9,7 @@ const server = createServer(function (req, res) {
         case '/shutdown':
             res.end('shutting down')
 
-            this.close(() => {
-                console.log('closed')
-            })
+            server.destroy()
 
             break
 
@@ -24,6 +22,7 @@ const server = createServer(function (req, res) {
 server.timeout = 2000
 
 server.listen(8000)
+enableDestroy(server)
 
 // Checking for memory leakages
 
