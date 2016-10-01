@@ -1,18 +1,10 @@
 'use strict'
 
-const port= 8000
-const { Server }= require('http')
+const port = 8000
+const { Server } = require('http')
+const handler = require('./utils/handler')
 
-const server= new Server((req, res) => {
-    res.end('hello')
-})
-
-let emit = server.emit
-
-server.emit = function (event) {
-    console.log(event)
-    return emit.apply(this, arguments)
-}
+const server= new Server((req, res) => handler(req, res))
 
 console.log(`Server started at port ${port}`)
 server.listen(port)
